@@ -1,7 +1,6 @@
 {
-  "dependencies": {
-    "aws-sdk": "^2.1692.0",
-    "multer-s3": "^3.0.1",
-    "three": "^0.177.0"
-  }
+  "name": "internproject",
+  "private": true,
+  "description": "Monorepo for 3D Model Viewer project with frontend (React) and backend (Express)",
+  "workspaces": ["frontend", "backend"]
 }
