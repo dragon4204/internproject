@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1976d2" />
+    <meta
+      name="description"
+      content="3D Model Viewer - Upload and view 3D models"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>3D Model Viewer</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-brand">
+        <a href="#" onclick="showPage('upload')">3D Model Viewer</a>
+      </div>
+      <div class="nav-links">
+        <a href="#" id="login-link" onclick="showPage('login')">Login</a>
+        <a href="#" id="register-link" onclick="showPage('register')">Register</a>
+        <a href="#" id="upload-link" onclick="showPage('upload')" style="display: none;">Upload</a>
+        <button id="logout-btn" onclick="logout()" style="display: none;">Logout</button>
+      </div>
+    </nav>
+
+    <!-- Login Page -->
+    <div id="login-page" class="page auth-container">
+      <div class="auth-card">
+        <h2>Login</h2>
+        <form id="login-form">
+          <div class="form-group">
+            <input type="text" id="login-username" placeholder="Username" required>
+          </div>
+          <div class="form-group">
+            <input type="password" id="login-password" placeholder="Password" required>
+          </div>
+          <button type="submit" class="btn-primary">Login</button>
+        </form>
+        <p class="error" id="login-error"></p>
+        <p class="auth-switch">Don't have an account? <a href="#" onclick="showPage('register')">Register here</a></p>
+      </div>
+    </div>
+
+    <!-- Register Page -->
+    <div id="register-page" class="page auth-container" style="display: none;">
+      <div class="auth-card">
+        <h2>Register</h2>
+        <form id="register-form">
+          <div class="form-group">
+            <input type="text" id="register-username" placeholder="Username" required>
+          </div>
+          <div class="form-group">
+            <input type="password" id="register-password" placeholder="Password" required>
+          </div>
+          <button type="submit" class="btn-primary">Register</button>
+        </form>
+        <p class="error" id="register-error"></p>
+        <p class="auth-switch">Already have an account? <a href="#" onclick="showPage('login')">Login here</a></p>
+      </div>
+    </div>
+
+    <!-- Upload Page -->
+    <div id="upload-page" class="page upload-container" style="display: none;">
+      <div class="upload-card">
+        <h2>Upload 3D Model</h2>
+        <form id="upload-form">
+          <div class="form-group">
+            <input type="text" id="model-name" placeholder="Model Name" required>
+          </div>
+          <div class="form-group">
+            <input type="text" id="model-description" placeholder="Description">
+          </div>
+          <div class="form-group">
+            <div class="file-upload">
+              <input type="file" id="model-file" accept=".glb,.obj" required>
+              <label for="model-file" class="file-label">
+                <span class="file-text">Choose a file</span>
+                <span class="file-icon">📁</span>
+              </label>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary">Upload Model</button>
+        </form>
+        <p class="error" id="upload-error"></p>
+        <p class="success" id="upload-success"></p>
+      </div>
+
+      <div class="models-card">
+        <h3>Uploaded Models</h3>
+        <div id="models-list" class="models-grid">
+          <!-- Models will be loaded here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Viewer Page -->
+    <div id="viewer-page" class="page viewer-container" style="display: none;">
+      <div class="viewer-header">
+        <h2 id="viewer-title">3D Model Viewer</h2>
+        <div class="viewer-controls">
+          <button id="save-camera-btn" class="btn-secondary">Save View</button>
+          <button id="reset-camera-btn" class="btn-secondary">Reset View</button>
+          <span id="save-status" class="save-status"></span>
+        </div>
+      </div>
+      <div id="viewer-canvas" class="viewer-canvas"></div>
+      <p id="viewer-description" class="viewer-description"></p>
+      <button id="back-to-upload" class="btn-primary">Back to Upload</button>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+      <div class="loading-spinner"></div>
+      <p>Loading...</p>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
